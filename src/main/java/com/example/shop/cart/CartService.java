@@ -3,8 +3,11 @@ package com.example.shop.cart;
 import com.example.shop.exceptions.CartDoesNotHaveProductException;
 import com.example.shop.exceptions.CartNotFoundException;
 import com.example.shop.exceptions.ProductNotFoundException;
+import com.example.shop.pdf.PdfGenerator;
 import com.example.shop.product.Product;
 import com.example.shop.product.ProductRepository;
+import com.itextpdf.text.DocumentException;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -86,5 +89,12 @@ public class CartService {
     public void deleteCart(Long cartId) {
         Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new CartNotFoundException(cartId));
         cartRepository.delete(cart);
+    }
+
+    public byte [] generatePdf(Long cartId) throws DocumentException {
+        Cart cart = getCart(cartId);
+        byte[] pdf = PdfGenerator.generatePdf(cart);
+
+        return pdf;
     }
 }

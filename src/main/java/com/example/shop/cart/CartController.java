@@ -1,16 +1,15 @@
 package com.example.shop.cart;
 
-import com.example.shop.exceptions.ErrorResponse;
-import com.example.shop.product.ProductCreateDTO;
-import com.example.shop.product.ProductEditDTO;
-import jakarta.validation.Valid;
+import com.example.shop.pdf.PdfGenerator;
+import com.itextpdf.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 public class CartController {
@@ -31,6 +30,16 @@ public class CartController {
     public ResponseEntity<List<Cart>> getCarts(){
         List<Cart> listOfCarts = cartService.getCarts();
         return new ResponseEntity<>(listOfCarts, HttpStatus.OK);
+    }
+
+    @GetMapping("/cart/{cartId}/pdf")
+    public ResponseEntity<byte[]> getCartPdf(@PathVariable("cartId") Long cartId) throws DocumentException {
+        byte [] pdf = cartService.generatePdf(cartId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+
+        return new ResponseEntity<>(pdf, headers, HttpStatus.OK);
     }
 
     @PostMapping("/cart/product/{productId}")
