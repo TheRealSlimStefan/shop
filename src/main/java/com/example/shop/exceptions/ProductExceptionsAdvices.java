@@ -35,7 +35,6 @@ public class ProductExceptionsAdvices {
     public ResponseEntity<Object> handleProductNotFoundException(ProductNotFoundException e) {
         ErrorResponse error = new ErrorResponse(HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND.value(), e.getMessage(), LocalDateTime.now());
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
-
     }
 
     @ExceptionHandler(ProductAlreadyExistsException.class)
@@ -44,7 +43,6 @@ public class ProductExceptionsAdvices {
     public ResponseEntity<Object> handleProductAlreadyExistsException(ProductAlreadyExistsException e) {
         ErrorResponse error = new ErrorResponse(HttpStatus.CONFLICT, HttpStatus.CONFLICT.value(), e.getMessage(), LocalDateTime.now());
         return new ResponseEntity<>(error, HttpStatus.CONFLICT);
-
     }
 
     @ExceptionHandler(ProductPriceInvalidException.class)
@@ -53,6 +51,5 @@ public class ProductExceptionsAdvices {
     public ResponseEntity<Object> handleProductPriceInvalidException(ProductPriceInvalidException e) {
         ErrorResponse error = new ErrorResponse(HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST.value(), e.getMessage(), LocalDateTime.now());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-
     }
 }
